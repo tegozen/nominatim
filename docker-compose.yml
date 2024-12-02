@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  nominatim:
+    image: mediagis/nominatim:latest
+    container_name: nominatim
+    environment:
+      - NOMINATIM_OSM_FILE=/var/lib/postgresql/osm.pbf
+      - NOMINATIM_IMPORT_ONLY=true  # Запустим только импорт OSM данных
+    ports:
+      - "${EXTERNAL_PORT}:8080"  # Используем переменную EXTERNAL_PORT
+    volumes:
+      - ./nominatim-data:/var/lib/postgresql  # Используем физический каталог рядом с docker-compose.yml
+      - ./osm.pbf:/var/lib/postgresql/osm.pbf  # Сохраняем OSM файл на хосте
+    entrypoint: /bin/bash -c "if [ ! -f /var/lib/postgresql/osm.pbf ]; then wget https://download.geofabrik.de/europe/russia-latest.osm.pbf -O /var/lib/postgresql/osm.pbf; fi && docker-entrypoint.sh"
+
+volumes:
+  nominatim-data:
+    driver: local
