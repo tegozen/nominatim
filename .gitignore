@@ -1,0 +1,20 @@
+# Игнорируем каталоги и файлы, создаваемые Docker
+docker-compose.override.yml
+docker-compose.yml
+*.log
+*.bak
+*.swp
+
+# Игнорируем директорию данных Nominatim, если она физически хранится рядом с docker-compose
+/nominatim-data/
+
+# Игнорируем файл OSM, если он был скачан
+osm.pbf
+
+# Игнорируем временные файлы и каталоги от IDE/редакторов
+.vscode/
+.idea/
+
+# Игнорируем временные файлы, которые могут быть созданы системой
+.DS_Store
+Thumbs.db
